@@ -3,9 +3,9 @@ const CleanWebpackPlugin = require("clean-webpack-plugin").CleanWebpackPlugin;
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 
 module.exports = {
-  entry: path.resolve(__dirname, "src/openmrs-esm-home.tsx"),
+  entry: path.resolve(__dirname, "src/ampath-esm-patient-chart-widgets.tsx"),
   output: {
-    filename: "openmrs-esm-home.js",
+    filename: "ampath-esm-patient-chart-widgets.js",
     libraryTarget: "system",
     path: path.resolve(__dirname, "dist"),
     jsonpFunction: "webpackJsonp_openmrs_esm_home"

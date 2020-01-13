@@ -1,8 +1,8 @@
 {
-  "name": "@openmrs/esm-home",
+  "name": "@ampath/esm-patient-chart-widgets",
   "version": "1.0.0",
   "description": "Homepage microfrontend for the OpenMRS SPA",
-  "main": "dist/openmrs-esm-home.js",
+  "main": "dist/ampath-esm-patient-chart-widgets.js",
   "scripts": {
     "start": "webpack-dev-server",
     "start-https": "webpack-dev-server --https",
@@ -24,17 +24,17 @@
       "pre-commit": "pretty-quick --staged && concurrently 'npm:test' 'npm:typescript' 'npm:lint'"
     }
   },
-  "types": "src/openmrs-esm-home.tsx",
+  "types": "src/ampath-esm-patient-chart-widgets.tsx",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/openmrs/openmrs-esm-home.git"
+    "url": "git+https://github.com/openmrs/ampath-esm-patient-chart-widgets.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/openmrs/openmrs-esm-home/issues"
+    "url": "https://github.com/openmrs/ampath-esm-patient-chart-widgets/issues"
   },
-  "homepage": "https://github.com/openmrs/openmrs-esm-home#readme",
+  "homepage": "https://github.com/openmrs/ampath-esm-patient-chart-widgets#readme",
   "devDependencies": {
     "@babel/core": "^7.5.5",
     "@babel/plugin-proposal-class-properties": "^7.5.5",

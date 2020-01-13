@@ -1,4 +1,3 @@
-# openmrs-esm-home
-[![Build Status](https://travis-ci.org/openmrs/openmrs-esm-home.svg?branch=master)](https://travis-ci.org/openmrs/openmrs-esm-home)
+# ampath-esm-patient-chart-widgets
 
-[Wiki documentation](https://wiki.openmrs.org/display/projects/openmrs-esm-home)
+[![Build Status](https://travis-ci.org/ampath/ampath-esm-patient-chart-widgets.svg?branch=master)](https://travis-ci.org/ampath/ampath-esm-patient-chart-widgets)
