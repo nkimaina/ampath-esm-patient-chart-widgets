@@ -2,13 +2,10 @@ import React from "react";
 import { match } from "react-router";
 import styles from "../summary-card.css";
 import { FormRenderer } from "./form-renderer.component";
+import { searchForms, Form } from "./form.resource";
+import { addComponentToWorkSpace } from "../work-space/work-space-controller";
 
 export default function FormsList(props: FormsListProps) {
-  let newWorkspaceItem;
-  System.import("@openmrs/esm-patient-chart").then(mod => {
-    newWorkspaceItem = mod.newWorkspaceItem;
-  });
-
   const formItemStyle = {
     paddingTop: "10px",
     paddingBottom: "10px",
@@ -18,13 +15,27 @@ export default function FormsList(props: FormsListProps) {
   };
 
   const handleFormSelected = selectedForm => {
-    newWorkspaceItem({
+    addComponentToWorkSpace({
       component: FormRenderer,
       name: "Form",
       props: { ...props.props, formUuid: selectedForm, match: { params: {} } },
       inProgress: false
-    });
+    }).then(
+      success => {},
+      error => {
+        console.error(error);
+      }
+    );
   };
+
+  const [forms, setForms] = React.useState(new Array<Form>());
+
+  React.useEffect(() => {
+    searchForms("POC").subscribe(forms => {
+      setForms(forms);
+    });
+  }, []);
+
   return (
     <div
       style={{ margin: "1.25rem, 1.5rem", minWidth: "20rem" }}
@@ -33,26 +44,24 @@ export default function FormsList(props: FormsListProps) {
       <div className={styles.header}>
         <div className={styles.headerTitle}>Forms List</div>
       </div>
-
-      <div
-        role="button"
-        tabIndex={-1}
-        style={{
-          borderBottom: "0.5px solid lightgray",
-          ...formItemStyle
-        }}
-        onClick={$event => handleFormSelected("greenCard")}
-      >
-        HIV Green Card Form
-      </div>
-
-      <div
-        role="button"
-        tabIndex={-1}
-        style={formItemStyle}
-        onClick={$event => handleFormSelected("blueCard")}
-      >
-        HIV Blue Card Form
+      <div style={{ maxHeight: "320px", overflow: "scroll" }}>
+        {forms &&
+          forms.map(form => {
+            return (
+              <div
+                role="button"
+                key={form.uuid}
+                tabIndex={-1}
+                style={{
+                  borderBottom: "0.5px solid lightgray",
+                  ...formItemStyle
+                }}
+                onClick={$event => handleFormSelected(form.uuid)}
+              >
+                {form.name}
+              </div>
+            );
+          })}
       </div>
     </div>
   );
