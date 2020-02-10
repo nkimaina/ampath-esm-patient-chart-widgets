@@ -3,9 +3,10 @@ import {
   filterUnpublishedRetired,
   filterByFormsUuid,
   filterByEncounterType,
-  filterByText
+  filterByText,
+  FormsFilter
 } from "./form-list-filter";
-describe("Form Processor", () => {
+describe("Form Filter", () => {
   const forms: Array<Form> = [
     {
       uuid: "uuid1",
@@ -35,7 +36,7 @@ describe("Form Processor", () => {
       uuid: "uuid4",
       name: "MOH 756 Form",
       published: true,
-      retired: true,
+      retired: false,
       encounterTypeUuid: "type4",
       encounterTypeName: "Yellow Card Encounter"
     }
@@ -43,8 +44,9 @@ describe("Form Processor", () => {
 
   it("filters out unpublished and retired forms", () => {
     const filtered = filterUnpublishedRetired(forms);
-    expect(filtered.length).toEqual(1);
+    expect(filtered.length).toEqual(2);
     expect(filtered[0]).toBe(forms[1]);
+    expect(filtered[1]).toBe(forms[3]);
   });
 
   it("filters out forms not in the a list of forms uuid", () => {
@@ -74,5 +76,15 @@ describe("Form Processor", () => {
     filtered = filterByText(forms, "MOH 756");
     expect(filtered.length).toEqual(2);
     expect(filtered[0]).toBe(forms[3]);
+  });
+
+  it("filter provides chaining of search", () => {
+    let filtered = new FormsFilter(forms)
+      .filterUnpublishedRetired()
+      .filterByEncounterType(["type1", "type2"])
+      .filterByText("youth");
+
+    expect(filtered.forms.length).toEqual(1);
+    expect(filtered.forms[0]).toBe(forms[1]);
   });
 });

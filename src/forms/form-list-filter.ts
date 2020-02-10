@@ -54,3 +54,33 @@ export function filterByText(
   });
   return filtered;
 }
+
+// chaining of filtering a.k.a builder pattern
+export class FormsFilter {
+  private _forms: Array<Form> = [];
+  public get forms(): Array<Form> {
+    return this._forms;
+  }
+
+  constructor(forms: Array<Form>) {
+    this._forms = forms;
+  }
+
+  public filterUnpublishedRetired(): FormsFilter {
+    return new FormsFilter(filterUnpublishedRetired(this.forms));
+  }
+
+  public filterByFormsUuid(formUuids: Array<string>): FormsFilter {
+    return new FormsFilter(filterByFormsUuid(this.forms, formUuids));
+  }
+
+  public filterByEncounterType(encounterTypeUuids: Array<string>): FormsFilter {
+    return new FormsFilter(
+      filterByEncounterType(this.forms, encounterTypeUuids)
+    );
+  }
+
+  public filterByText(searchText: string): FormsFilter {
+    return new FormsFilter(filterByText(this.forms, searchText));
+  }
+}
