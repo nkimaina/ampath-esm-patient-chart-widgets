@@ -4,6 +4,7 @@ import styles from "../summary-card.css";
 import { FormRenderer } from "./form-renderer.component";
 import { searchForms, Form } from "./form.resource";
 import { addComponentToWorkSpace } from "../work-space/work-space-controller";
+import { FormsFilter } from "./form-list-filter";
 
 export default function FormsList(props: FormsListProps) {
   const formItemStyle = {
@@ -29,10 +30,17 @@ export default function FormsList(props: FormsListProps) {
   };
 
   const [forms, setForms] = React.useState(new Array<Form>());
-
+  let allForms = [];
+  let defaultFilter: FormsFilter;
+  const applyDefaultFilter = () => {
+    defaultFilter = new FormsFilter(allForms).filterUnpublishedRetired();
+    setForms(defaultFilter.forms);
+  };
   React.useEffect(() => {
     searchForms("POC").subscribe(forms => {
-      setForms(forms);
+      allForms = forms;
+      defaultFilter = new FormsFilter(allForms);
+      applyDefaultFilter();
     });
   }, []);
 
