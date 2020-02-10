@@ -14,7 +14,13 @@ export function searchForms(searchText: string): Observable<Array<Form>> {
       const forms: Form[] = results["data"]["results"].map(form => {
         const transformed: Form = {
           uuid: form.uuid,
-          name: form.name
+          name: form.name,
+          published: form.published,
+          retired: form.retired,
+          encounterTypeUuid: form.encounterType
+            ? form.encounterType.uuid
+            : null,
+          encounterTypeName: form.encounterType ? form.encounterType.name : null
         };
         return transformed;
       });
@@ -26,4 +32,8 @@ export function searchForms(searchText: string): Observable<Array<Form>> {
 export type Form = {
   uuid: string;
   name: string;
+  published: boolean;
+  retired: boolean;
+  encounterTypeUuid?: string;
+  encounterTypeName?: string;
 };
