@@ -46,7 +46,10 @@ export function filterByText(
 
   // then by encounter type name
   unfiltered = unfiltered.filter(form => {
-    if (form.encounterTypeName.toLowerCase().includes(searchText)) {
+    if (
+      form.encounterTypeName &&
+      form.encounterTypeName.toLowerCase().includes(searchText)
+    ) {
       filtered.push(form);
       return false;
     }

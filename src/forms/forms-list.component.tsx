@@ -7,6 +7,12 @@ import { addComponentToWorkSpace } from "../work-space/work-space-controller";
 import { FormsFilter } from "./form-list-filter";
 
 export default function FormsList(props: FormsListProps) {
+  let formFilter: FormsFilter;
+
+  const [forms, setForms] = React.useState(new Array<Form>());
+  const [allForms, setAllForms] = React.useState(new Array<Form>());
+  const [searchTerm, setSearchTerm] = React.useState("");
+
   const formItemStyle = {
     paddingTop: "10px",
     paddingBottom: "10px",
@@ -29,20 +35,31 @@ export default function FormsList(props: FormsListProps) {
     );
   };
 
-  const [forms, setForms] = React.useState(new Array<Form>());
-  let allForms = [];
-  let defaultFilter: FormsFilter;
-  const applyDefaultFilter = () => {
-    defaultFilter = new FormsFilter(allForms).filterUnpublishedRetired();
-    setForms(defaultFilter.forms);
+  const handleFormSearchInput = searchTerm => {
+    setSearchTerm(searchTerm);
   };
+
+  const applyDefaultFilter = () => {
+    formFilter = new FormsFilter(allForms).filterUnpublishedRetired();
+  };
+
   React.useEffect(() => {
-    searchForms("POC").subscribe(forms => {
-      allForms = forms;
-      defaultFilter = new FormsFilter(allForms);
-      applyDefaultFilter();
-    });
+    if (allForms.length === 0) {
+      searchForms("POC").subscribe(forms => {
+        setAllForms(forms);
+      });
+    }
   }, []);
+
+  React.useEffect(() => {
+    if (!formFilter) {
+      applyDefaultFilter();
+    }
+    if (searchTerm && searchTerm.trim() !== "") {
+      formFilter = formFilter.filterByText(searchTerm);
+    }
+    setForms(formFilter.forms);
+  }, [searchTerm, allForms]);
 
   return (
     <div
@@ -50,7 +67,16 @@ export default function FormsList(props: FormsListProps) {
       className={`omrs-card ${styles.card}`}
     >
       <div className={styles.header}>
-        <div className={styles.headerTitle}>Forms List</div>
+        <div className={styles.headerTitle}>
+          Forms List{" "}
+          <input
+            className={`omrs-type-title-5`}
+            placeholder="Search form"
+            aria-label="Search form"
+            onChange={$event => handleFormSearchInput($event.target.value)}
+            autoFocus
+          />
+        </div>
       </div>
       <div style={{ maxHeight: "320px", overflow: "scroll" }}>
         {forms &&
