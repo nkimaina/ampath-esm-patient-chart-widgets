@@ -58,6 +58,20 @@ export function filterByText(
   return filtered;
 }
 
+export function filterByFormAndEncounterType(
+  forms: Array<Form>,
+  encounterTypeUuid: string,
+  formUuid: string = null
+): Array<Form> {
+  let filtered = forms.filter(form => {
+    return (
+      encounterTypeUuid === form.encounterTypeUuid &&
+      (formUuid === null || formUuid === form.uuid)
+    );
+  });
+  return filtered;
+}
+
 // chaining of filtering a.k.a builder pattern
 export class FormsFilter {
   private _forms: Array<Form> = [];
@@ -85,5 +99,14 @@ export class FormsFilter {
 
   public filterByText(searchText: string): FormsFilter {
     return new FormsFilter(filterByText(this.forms, searchText));
+  }
+
+  public filterByFormAndEncounterType(
+    encounterTypeUuid: string,
+    formUuid: string = null
+  ): FormsFilter {
+    return new FormsFilter(
+      filterByFormAndEncounterType(this.forms, encounterTypeUuid, formUuid)
+    );
   }
 }
