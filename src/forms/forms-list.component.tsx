@@ -68,14 +68,15 @@ export default function FormsList(props: FormsListProps) {
     >
       <div className={styles.header}>
         <div className={styles.headerTitle}>
-          Forms List{" "}
-          <input
-            className={`omrs-type-title-5`}
-            placeholder="Search form"
-            aria-label="Search form"
-            onChange={$event => handleFormSearchInput($event.target.value)}
-            autoFocus
-          />
+          <h2>
+            Forms List{" "}
+            <input
+              className={`omrs-type-title-5`}
+              placeholder="Search form"
+              aria-label="Search form"
+              onChange={$event => handleFormSearchInput($event.target.value)}
+            />
+          </h2>
         </div>
       </div>
       <div style={{ maxHeight: "320px", overflow: "scroll" }}>
