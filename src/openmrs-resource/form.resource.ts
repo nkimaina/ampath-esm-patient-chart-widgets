@@ -31,7 +31,7 @@ export type Form = {
 export function toFormObject(openmrsRestForm: any): Form {
   return {
     uuid: openmrsRestForm.uuid,
-    name: openmrsRestForm.name,
+    name: openmrsRestForm.name || openmrsRestForm.display,
     published: openmrsRestForm.published,
     retired: openmrsRestForm.retired,
     encounterTypeUuid: openmrsRestForm.encounterType
