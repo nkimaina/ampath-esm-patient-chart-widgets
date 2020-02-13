@@ -1,4 +1,4 @@
-import { Form } from "./form.resource";
+import { Form } from "../openmrs-resource/form.resource";
 import {
   filterUnpublishedRetired,
   filterByFormsUuid,

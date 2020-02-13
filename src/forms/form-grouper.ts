@@ -1,4 +1,4 @@
-import { Form } from "./form.resource";
+import { Form } from "../openmrs-resource/form.resource";
 import { FormsFilter } from "./form-list-filter";
 
 export function groupFormsByProgram(

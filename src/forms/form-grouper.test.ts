@@ -3,7 +3,7 @@ import {
   ProgramForms,
   groupFormsByProgram
 } from "./form-grouper";
-import { Form } from "./form.resource";
+import { Form } from "../openmrs-resource/form.resource";
 describe("Form Grouper", () => {
   const programFormsConfig: Array<ProgramFormsConfig> = [
     {

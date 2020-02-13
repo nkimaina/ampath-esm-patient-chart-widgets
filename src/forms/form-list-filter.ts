@@ -1,4 +1,4 @@
-import { Form } from "./form.resource";
+import { Form } from "../openmrs-resource/form.resource";
 
 export function filterUnpublishedRetired(forms: Array<Form>): Array<Form> {
   let filtered = forms.filter(form => {

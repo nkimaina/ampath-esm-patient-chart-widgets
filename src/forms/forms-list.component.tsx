@@ -2,7 +2,7 @@ import React from "react";
 import { match } from "react-router";
 import styles from "../summary-card.css";
 import { FormRenderer } from "./form-renderer.component";
-import { searchForms, Form } from "./form.resource";
+import { searchForms, Form } from "../openmrs-resource/form.resource";
 import { addComponentToWorkSpace } from "../work-space/work-space-controller";
 import { FormsFilter } from "./form-list-filter";
 
