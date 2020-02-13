@@ -11,19 +11,9 @@ export function searchForms(searchText: string): Observable<Array<Form>> {
     `/ws/rest/v1/form?v=custom:(uuid,name,encounterType:(uuid,name),version,published,retired,resources:(uuid,name,dataType,valueReference))${filter}`
   ).pipe(
     map(results => {
-      const forms: Form[] = results["data"]["results"].map(form => {
-        const transformed: Form = {
-          uuid: form.uuid,
-          name: form.name,
-          published: form.published,
-          retired: form.retired,
-          encounterTypeUuid: form.encounterType
-            ? form.encounterType.uuid
-            : null,
-          encounterTypeName: form.encounterType ? form.encounterType.name : null
-        };
-        return transformed;
-      });
+      const forms: Form[] = results["data"]["results"].map(form =>
+        toFormObject(form)
+      );
       return forms;
     })
   );
@@ -37,3 +27,18 @@ export type Form = {
   encounterTypeUuid?: string;
   encounterTypeName?: string;
 };
+
+export function toFormObject(openmrsRestForm: any): Form {
+  return {
+    uuid: openmrsRestForm.uuid,
+    name: openmrsRestForm.name,
+    published: openmrsRestForm.published,
+    retired: openmrsRestForm.retired,
+    encounterTypeUuid: openmrsRestForm.encounterType
+      ? openmrsRestForm.encounterType.uuid
+      : null,
+    encounterTypeName: openmrsRestForm.encounterType
+      ? openmrsRestForm.encounterType.name
+      : null
+  };
+}

@@ -5,6 +5,8 @@ import { FormRenderer } from "./form-renderer.component";
 import { searchForms, Form } from "../openmrs-resource/form.resource";
 import { addComponentToWorkSpace } from "../work-space/work-space-controller";
 import { FormsFilter } from "./form-list-filter";
+import { getPatientEncounters } from "../openmrs-resource/encounter.resource";
+import { getCurrentPatientUuid } from "@openmrs/esm-api";
 
 export default function FormsList(props: FormsListProps) {
   let formFilter: FormsFilter;
@@ -60,6 +62,12 @@ export default function FormsList(props: FormsListProps) {
     }
     setForms(formFilter.forms);
   }, [searchTerm, allForms]);
+
+  getCurrentPatientUuid().subscribe(uuid => {
+    getPatientEncounters(uuid).subscribe(results => {
+      // console.log("encounters", results);
+    });
+  });
 
   return (
     <div

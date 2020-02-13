@@ -1,9 +1,11 @@
 import { Form } from "../openmrs-resource/form.resource";
-import { FormsFilter } from "./form-list-filter";
+import { FormsFilter, areFormsEqual } from "./form-list-filter";
+import { Encounter } from "../openmrs-resource/encounter.resource";
 
 export function groupFormsByProgram(
   forms: Array<Form>,
-  programsConfig: Array<ProgramFormsConfig>
+  programsConfig: Array<ProgramFormsConfig>,
+  encounters: Array<Encounter> = []
 ): Array<ProgramForms> {
   let grouped: Array<ProgramForms> = programsConfig.map(config => {
     let formFilter = new FormsFilter(forms);
@@ -21,10 +23,41 @@ export function groupFormsByProgram(
       programName: config.programName,
       programForms: programForms
     };
+
+    let availability = filterAvailableCompletedForms(programForms, encounters);
+    program.availableForms = availability.available;
+    program.completedForms = availability.completed;
     return program;
   });
 
   return grouped;
+}
+
+export function filterAvailableCompletedForms(
+  forms: Array<Form>,
+  encounters: Array<Encounter>
+): {
+  available: Array<Form>;
+  completed: Array<Encounter>;
+} {
+  const availability = {
+    available: [],
+    completed: []
+  };
+
+  forms.forEach(form => {
+    let completedEncounters = encounters.filter(encounter => {
+      return areFormsEqual(encounter.form, form);
+    });
+    if (completedEncounters.length > 0) {
+      availability.completed = availability.completed.concat(
+        completedEncounters
+      );
+    } else {
+      availability.available.push(form);
+    }
+  });
+  return availability;
 }
 
 export type ProgramForms = {
@@ -32,7 +65,7 @@ export type ProgramForms = {
   programUuid: string;
   programForms: Array<Form>;
   availableForms?: Array<Form>;
-  completedForms?: Array<Form>;
+  completedForms?: Array<Encounter>;
 };
 
 export type ProgramFormsConfig = {

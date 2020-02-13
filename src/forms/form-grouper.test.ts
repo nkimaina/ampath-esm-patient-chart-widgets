@@ -4,6 +4,7 @@ import {
   groupFormsByProgram
 } from "./form-grouper";
 import { Form } from "../openmrs-resource/form.resource";
+import { Encounter } from "../openmrs-resource/encounter.resource";
 describe("Form Grouper", () => {
   const programFormsConfig: Array<ProgramFormsConfig> = [
     {
@@ -65,11 +66,22 @@ describe("Form Grouper", () => {
     }
   ];
 
+  const encounters: Array<Encounter> = [
+    {
+      uuid: "enc-uuid",
+      encounterDateTime: new Date(),
+      form: forms[1]
+    }
+  ];
+
   it("groups forms by programs given Program Form Config", () => {
     let grouped: Array<ProgramForms> = groupFormsByProgram(
       forms,
-      programFormsConfig
+      programFormsConfig,
+      encounters
     );
+
+    // Program Forms
     expect(grouped.length).toEqual(2);
     expect(grouped[0].programName).toEqual("HIV");
     expect(grouped[0].programUuid).toEqual("hiv-uuid");
@@ -81,5 +93,15 @@ describe("Form Grouper", () => {
 
     expect(grouped[1].programForms.length).toEqual(1);
     expect(grouped[1].programForms[0]).toBe(forms[2]);
+
+    // Available/Completed Forms Checks
+    expect(grouped[0].availableForms.length).toBe(1);
+    expect(grouped[0].completedForms.length).toBe(1);
+    expect(grouped[1].availableForms.length).toBe(1);
+    expect(grouped[1].completedForms.length).toBe(0);
+
+    expect(grouped[0].availableForms[0]).toBe(forms[3]);
+    expect(grouped[0].completedForms[0].form).toBe(forms[1]);
+    expect(grouped[1].availableForms[0]).toBe(forms[2]);
   });
 });

@@ -72,6 +72,10 @@ export function filterByFormAndEncounterType(
   return filtered;
 }
 
+export function areFormsEqual(a: Form, b: Form): boolean {
+  return a.uuid === b.uuid;
+}
+
 // chaining of filtering a.k.a builder pattern
 export class FormsFilter {
   private _forms: Array<Form> = [];
