@@ -1,11 +1,12 @@
 import { openmrsObservableFetch } from "@openmrs/esm-api";
 
 import { Observable } from "rxjs";
+import { FetchResponse } from "@openmrs/esm-api/dist/openmrs-fetch";
 
 export function saveVisit(
   payload: NewVisitPayload,
   abortController: AbortController
-): Observable<any> {
+): Observable<FetchResponse<any>> {
   return openmrsObservableFetch(`/ws/rest/v1/visit`, {
     signal: abortController.signal,
     method: "POST",
