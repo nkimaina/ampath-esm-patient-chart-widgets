@@ -160,7 +160,7 @@ export default function FormsList(props: FormsListProps) {
 }
 
 type FormsListProps = {
-  match: match;
-  location: any;
+  // match: match;
+  // location: any;
   props: any;
 };
