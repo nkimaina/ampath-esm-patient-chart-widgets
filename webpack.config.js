@@ -18,6 +18,18 @@ module.exports = {
         }
       },
       {
+        type: "javascript/auto",
+        test: /\/config\/.*\.json$/,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "[name].[ext]"
+            }
+          }
+        ]
+      },
+      {
         test: /\.m?(js|ts|tsx)$/,
         exclude: /(node_modules|bower_components)/,
         use: {

@@ -1,0 +1,23 @@
+{
+  "@openmrs/esm-patient-chart": {
+    "defaultTabIndex": 0,
+    "widgets": [
+      "summaries",
+      "results",
+      "orders",
+      "encounters",
+      "conditions",
+      "programs",
+      "allergies",
+      "forms"
+    ],
+    "widgetDefinitions": [
+      {
+        "name": "forms",
+        "label": "Forms",
+        "esModule": "@ampath/esm-patient-chart-widgets",
+        "path": "/forms"
+      }
+    ]
+  }
+}

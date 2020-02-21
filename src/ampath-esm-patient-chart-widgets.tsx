@@ -26,3 +26,5 @@ export const widgets = {
     routes: []
   }
 };
+
+export const patientChartConfigFile = require("./config/patient-chart-config.json");
