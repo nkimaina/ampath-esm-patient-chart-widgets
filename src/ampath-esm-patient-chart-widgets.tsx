@@ -3,7 +3,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import singleSpaReact from "single-spa-react";
 import Root from "./root.component";
-import FormsList from "./forms/forms-list.component";
+import { HivDashBoard } from "./dashboards/hiv-dashboard.component";
 
 const lifecycles = singleSpaReact({
   React,
@@ -15,9 +15,7 @@ export const bootstrap = lifecycles.bootstrap;
 export const mount = lifecycles.mount;
 export const unmount = lifecycles.unmount;
 export { backendDependencies } from "./openmrs-backend-dependencies";
+export const name = "@ampath/esm-patient-chart-widgets";
 export const widgets = {
-  formsListWidget: {
-    root: FormsList,
-    routes: []
-  }
+  "hiv-dashboard": HivDashBoard
 };
