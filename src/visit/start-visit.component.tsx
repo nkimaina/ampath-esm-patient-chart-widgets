@@ -134,6 +134,12 @@ export default function StartVisitComponent(props: StartVisitProps) {
           >
             MTRH Module 2
           </option>
+          <option
+            value="f76c0c8e-2c3a-443c-b26d-96a9f3847764"
+            className="omrs-padding-8"
+          >
+            Mosoriot Pharmacy
+          </option>
         </select>
       </div>
       <div style={{ width: "100%" }}>

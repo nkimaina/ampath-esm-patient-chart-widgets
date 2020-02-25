@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 
 import StartVisitComponent from "./start-visit.component";
+import useStartedVisit from "./use-started-visit.hook";
 import styles from "../summary-card.css";
 
 export default function VisitSummaryComponent(props: any) {
   const visitToStart: VisitTypeProp = {
-    visitTypeUuid: "6b338817-8a12-4ef3-8263-4d952dee2de3",
+    visitTypeUuid: "7b0f5697-27e3-40c4-8bae-f4049abfb4ed", //"6b338817-8a12-4ef3-8263-4d952dee2de3",
     visitDisplay: "Outpatient Visit"
   };
 
-  const [startingVisit, setStartingVisit] = React.useState(false);
-  const [startedVisit, setStartedVisit] = React.useState();
+  const [startingVisit, setStartingVisit] = useState(false);
+  const [startedVisit, setStartedVisit] = useStartedVisit({
+    visitTypeUuid: visitToStart.visitTypeUuid
+  });
 
   const startVisit = visitType => {
     setStartingVisit(true);
@@ -43,6 +46,7 @@ export default function VisitSummaryComponent(props: any) {
       <div
         style={{ maxHeight: "320px", minHeight: "90px", overflow: "scroll" }}
       >
+        {!startingVisit && startedVisit === undefined && <div>Loading...</div>}
         {startingVisit && (
           <StartVisitComponent
             visitType={visitToStart}
@@ -50,7 +54,7 @@ export default function VisitSummaryComponent(props: any) {
             onCanceled={onVisitStartingCancelled}
           />
         )}
-        {!startingVisit && !startedVisit && (
+        {!startingVisit && startedVisit === null && (
           <div
             className="omrs-padding-top-4 omrs-padding-bottom-4"
             style={{

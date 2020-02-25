@@ -1,7 +1,34 @@
 import { openmrsObservableFetch } from "@openmrs/esm-api";
 
 import { Observable } from "rxjs";
+import { take } from "rxjs/operators";
 import { FetchResponse } from "@openmrs/esm-api/dist/openmrs-fetch";
+
+export function getVisitsForPatient(
+  patientUuid: string,
+  abortController: AbortController,
+  v?: string
+): Observable<FetchResponse<any>> {
+  const custom =
+    v ||
+    "custom:(uuid,encounters:(uuid,encounterDatetime," +
+      "form:(uuid,name),location:ref," +
+      "encounterType:ref,encounterProviders:(uuid,display," +
+      "provider:(uuid,display))),patient:(uuid,uuid)," +
+      "visitType:(uuid,name),attributes:(uuid,display,value),location:ref,startDatetime," +
+      "stopDatetime)";
+
+  return openmrsObservableFetch(
+    `/ws/rest/v1/visit?patient=${patientUuid}&v=${custom}`,
+    {
+      signal: abortController.signal,
+      method: "GET",
+      headers: {
+        "Content-type": "application/json"
+      }
+    }
+  ).pipe(take(1));
+}
 
 export function saveVisit(
   payload: NewVisitPayload,
