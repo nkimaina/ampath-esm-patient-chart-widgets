@@ -6,7 +6,8 @@ import styles from "../summary-card.css";
 
 export default function VisitSummaryComponent(props: any) {
   const visitToStart: VisitTypeProp = {
-    visitTypeUuid: "7b0f5697-27e3-40c4-8bae-f4049abfb4ed", //"6b338817-8a12-4ef3-8263-4d952dee2de3",
+    // visitTypeUuid: "7b0f5697-27e3-40c4-8bae-f4049abfb4ed",
+    visitTypeUuid: "6b338817-8a12-4ef3-8263-4d952dee2de3",
     visitDisplay: "Outpatient Visit"
   };
 
@@ -31,7 +32,11 @@ export default function VisitSummaryComponent(props: any) {
 
   return (
     <div
-      style={{ margin: "1.25rem, 1.5rem", minWidth: "20rem" }}
+      style={{
+        // margin: "1.25rem, 1.5rem",
+        minWidth: "20rem",
+        textAlign: "left"
+      }}
       className={`omrs-card ${styles.card}`}
     >
       <div className={styles.header}>
@@ -96,7 +101,7 @@ export default function VisitSummaryComponent(props: any) {
               fill="var(--omrs-color-interaction)"
               style={{ height: "1rem", width: "1rem" }}
             >
-              <use xlinkHref="#omrs-icon-access-time"></use>
+              <use xlinkHref="#omrs-icon-check-circle"></use>
             </svg>{" "}
             Started Outpatient Visit
           </div>

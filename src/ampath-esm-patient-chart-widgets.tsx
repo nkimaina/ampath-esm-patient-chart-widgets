@@ -4,6 +4,8 @@ import ReactDOM from "react-dom";
 import singleSpaReact from "single-spa-react";
 import Root from "./root.component";
 import { HivDashBoard } from "./dashboards/hiv-dashboard.component";
+import FormsList from "./forms/forms-list.component";
+import VisitSummary from "./visit/visit-summary.component";
 
 const lifecycles = singleSpaReact({
   React,
@@ -16,6 +18,7 @@ export const mount = lifecycles.mount;
 export const unmount = lifecycles.unmount;
 export { backendDependencies } from "./openmrs-backend-dependencies";
 export const name = "@ampath/esm-patient-chart-widgets";
-export const widgets = {
-  "hiv-dashboard": HivDashBoard
-};
+
+export const hivWidget = HivDashBoard;
+export const todaysVisitWidget = VisitSummary;
+export const formsListWidget = FormsList;

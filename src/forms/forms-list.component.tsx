@@ -80,7 +80,11 @@ export default function FormsList(props: FormsListProps) {
 
   return (
     <div
-      style={{ margin: "1.25rem, 1.5rem", minWidth: "20rem" }}
+      style={{
+        //margin: "1.25rem, 1.5rem",
+        minWidth: "20rem",
+        textAlign: "left"
+      }}
       className={`omrs-card ${styles.card}`}
     >
       <div className={styles.header}>
