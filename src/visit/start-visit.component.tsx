@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import { NewVisitPayload, saveVisit } from "../openmrs-resource/visit.resource";
 import { FetchResponse } from "@openmrs/esm-api/dist/openmrs-fetch";
 import styles from "./start-visit.component.css";
+import LocationSelectComponent from "../widgets/location-select.component";
 
 export default function StartVisitComponent(props: StartVisitProps) {
   const [patientUuid, setPatientUuid] = React.useState();
@@ -47,8 +48,8 @@ export default function StartVisitComponent(props: StartVisitProps) {
     setVisitStartTime(event.target.value);
   };
 
-  const onLocationChanged = event => {
-    setLocationUuid(event.target.value);
+  const onLocationChanged = uuid => {
+    setLocationUuid(uuid);
   };
 
   if (!patientUuid) {
@@ -60,9 +61,8 @@ export default function StartVisitComponent(props: StartVisitProps) {
   return (
     <div className="omrs-padding-8">
       <div
-        className="omrs-type-body-regular omrs-margin-left-8 omrs-padding-4"
+        className={`omrs-type-body-regular omrs-margin-left-8 omrs-padding-4 ${styles.inputLabelStyle}`}
         style={{
-          ...styles.inputLabelStyle,
           borderBottom: "1px solid lightgray"
         }}
       >
@@ -71,8 +71,7 @@ export default function StartVisitComponent(props: StartVisitProps) {
       <div className="omrs-margin-12">
         <label
           htmlFor="visitStartDate"
-          style={styles.inputLabelStyle}
-          className="omrs-type-body-regular"
+          className={`omrs-type-body-regular ${styles.inputLabelStyle}`}
         >
           Start Date/Time:
         </label>
@@ -100,49 +99,23 @@ export default function StartVisitComponent(props: StartVisitProps) {
       <div className="omrs-margin-12">
         <label
           htmlFor="visitLocation"
-          style={styles.inputLabelStyle}
-          className="omrs-type-body-regular"
+          className={`omrs-type-body-regular ${styles.inputLabelStyle}`}
         >
           Location:
         </label>
-        <select
-          style={{ ...styles.inputStyle, height: "34px" }}
-          name="visitLocation"
-          id="visitLocation"
-          className="omrs-type-body-regular"
-          onChange={onLocationChanged}
-        >
-          <option
-            value="18c343eb-b353-462a-9139-b16606e6b6c2"
-            className="omrs-padding-8"
-          >
-            MTRH Module 1
-          </option>
-          <option
-            value="18c343eb-b353-462a-9139-b16606e6b6c4"
-            className="omrs-padding-8"
-          >
-            MTRH Module 2
-          </option>
-          <option
-            value="f76c0c8e-2c3a-443c-b26d-96a9f3847764"
-            className="omrs-padding-8"
-          >
-            Mosoriot Pharmacy
-          </option>
-        </select>
+        <LocationSelectComponent
+          onLocationChanged={location => onLocationChanged(location.uuid)}
+        />
       </div>
       <div style={{ width: "100%" }}>
         <button
-          className="omrs-link omrs-outlined-neutral omrs-rounded omrs-padding-8 omrs-margin-8 omrs-type-body-regular"
-          style={styles.buttonStyle}
+          className={`omrs-link omrs-outlined-neutral omrs-rounded omrs-padding-8 omrs-margin-8 omrs-type-body-regular ${styles.buttonStyle}`}
           onClick={() => props.onCanceled()}
         >
           Cancel
         </button>
         <button
-          className="omrs-link omrs-outlined-action omrs-rounded omrs-padding-8 omrs-type-body-regular omrs-margin-8"
-          style={styles.buttonStyle}
+          className={`omrs-link omrs-outlined-action omrs-rounded omrs-padding-8 omrs-type-body-regular omrs-margin-8 ${styles.buttonStyle}`}
           onClick={() => startVisit()}
         >
           Start

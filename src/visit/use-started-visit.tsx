@@ -23,6 +23,8 @@ export default function useStartedVisit(props: StartedVisitProps) {
       });
       if (todayVisitsForPassedType.length > 0) {
         setStartedVisit(todayVisitsForPassedType[0]);
+      } else {
+        setStartedVisit(null);
       }
     };
     let patientSub: Subscription;

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import StartVisitComponent from "./start-visit.component";
-import useStartedVisit from "./use-started-visit.hook";
+import useStartedVisit from "./use-started-visit";
 import styles from "../summary-card.css";
 
 export default function VisitSummaryComponent(props: any) {
