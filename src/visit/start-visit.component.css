@@ -1,0 +1,11 @@
+.buttonStyle {
+  width: "44%";
+}
+
+.inputStyle {
+  width: "98%";
+}
+
+.inputLabelStyle {
+  color: "var(--omrs-color-ink-medium-contrast)";
+}

@@ -4,24 +4,11 @@ import { getCurrentPatientUuid } from "@openmrs/esm-api";
 import dayjs from "dayjs";
 import { NewVisitPayload, saveVisit } from "../openmrs-resource/visit.resource";
 import { FetchResponse } from "@openmrs/esm-api/dist/openmrs-fetch";
+import styles from "./start-visit.component.css";
 
 export default function StartVisitComponent(props: StartVisitProps) {
-  // TODO: Move Styling
-  const buttonStyle = {
-    width: "44%"
-  };
-
-  const inputStyle = {
-    width: "98%"
-  };
-
-  const inputLabelStyle = {
-    color: "var(--omrs-color-ink-medium-contrast)"
-  };
-
-  const defaultDateTime = new Date();
-
   const [patientUuid, setPatientUuid] = React.useState();
+
   const [visitStartDate, setVisitStartDate] = React.useState(
     dayjs(new Date()).format("YYYY-MM-DD")
   );
@@ -74,14 +61,17 @@ export default function StartVisitComponent(props: StartVisitProps) {
     <div className="omrs-padding-8">
       <div
         className="omrs-type-body-regular omrs-margin-left-8 omrs-padding-4"
-        style={{ ...inputLabelStyle, borderBottom: "1px solid lightgray" }}
+        style={{
+          ...styles.inputLabelStyle,
+          borderBottom: "1px solid lightgray"
+        }}
       >
         {props.visitType.visitDisplay}
       </div>
       <div className="omrs-margin-12">
         <label
           htmlFor="visitStartDate"
-          style={inputLabelStyle}
+          style={styles.inputLabelStyle}
           className="omrs-type-body-regular"
         >
           Start Date/Time:
@@ -110,13 +100,13 @@ export default function StartVisitComponent(props: StartVisitProps) {
       <div className="omrs-margin-12">
         <label
           htmlFor="visitLocation"
-          style={inputLabelStyle}
+          style={styles.inputLabelStyle}
           className="omrs-type-body-regular"
         >
           Location:
         </label>
         <select
-          style={{ ...inputStyle, height: "34px" }}
+          style={{ ...styles.inputStyle, height: "34px" }}
           name="visitLocation"
           id="visitLocation"
           className="omrs-type-body-regular"
@@ -145,14 +135,14 @@ export default function StartVisitComponent(props: StartVisitProps) {
       <div style={{ width: "100%" }}>
         <button
           className="omrs-link omrs-outlined-neutral omrs-rounded omrs-padding-8 omrs-margin-8 omrs-type-body-regular"
-          style={buttonStyle}
+          style={styles.buttonStyle}
           onClick={() => props.onCanceled()}
         >
           Cancel
         </button>
         <button
           className="omrs-link omrs-outlined-action omrs-rounded omrs-padding-8 omrs-type-body-regular omrs-margin-8"
-          style={buttonStyle}
+          style={styles.buttonStyle}
           onClick={() => startVisit()}
         >
           Start
