@@ -29,11 +29,16 @@ export default function FormsList(props: FormsListProps) {
     cursor: "pointer"
   };
 
-  const handleFormSelected = selectedForm => {
+  const handleFormSelected = (selectedForm, encounter = null) => {
     addComponentToWorkSpace({
       component: FormRenderer,
       name: "Form",
-      props: { ...props.props, formUuid: selectedForm, match: { params: {} } },
+      props: {
+        ...props.props,
+        formUuid: selectedForm,
+        encounterUuid: encounter,
+        match: { params: {} }
+      },
       inProgress: false
     }).then(
       success => {},
@@ -60,7 +65,7 @@ export default function FormsList(props: FormsListProps) {
       getCurrentPatientUuid().subscribe(uuid => {
         getPatientEncounters(uuid).subscribe(encounters => {
           searchForms("POC").subscribe(forms => {
-            setEncounters(encounters.slice(0, 2));
+            setEncounters(encounters);
             setAllForms(forms);
           });
         });
@@ -112,7 +117,9 @@ export default function FormsList(props: FormsListProps) {
                   borderBottom: "0.5px solid lightgray",
                   ...formItemStyle
                 }}
-                onClick={$event => handleFormSelected(encounter.form.uuid)}
+                onClick={$event =>
+                  handleFormSelected(encounter.form.uuid, encounter.uuid)
+                }
               >
                 <button className="omrs-btn omrs-text-action">
                   {" "}
