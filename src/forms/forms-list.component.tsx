@@ -3,13 +3,12 @@ import { match } from "react-router";
 import styles from "../summary-card.css";
 import { FormRenderer } from "./form-renderer.component";
 import { searchForms, Form } from "../openmrs-resource/form.resource";
-import { addComponentToWorkSpace } from "../work-space/work-space-controller";
 import { FormsFilter } from "./form-list-filter";
 import {
   getPatientEncounters,
   Encounter
 } from "../openmrs-resource/encounter.resource";
-import { getCurrentPatientUuid } from "@openmrs/esm-api";
+import { getCurrentPatientUuid, newWorkspaceItem } from "@openmrs/esm-api";
 import { filterAvailableCompletedForms } from "./form-grouper";
 
 export default function FormsList(props: FormsListProps) {
@@ -30,7 +29,7 @@ export default function FormsList(props: FormsListProps) {
   };
 
   const handleFormSelected = (selectedForm, formName, encounter = null) => {
-    addComponentToWorkSpace({
+    newWorkspaceItem({
       component: FormRenderer,
       name: formName || "Form",
       props: {
@@ -39,13 +38,15 @@ export default function FormsList(props: FormsListProps) {
         encounterUuid: encounter,
         match: { params: {} }
       },
+      componentClosed: () => {},
       inProgress: false
-    }).then(
-      success => {},
-      error => {
-        console.error(error);
-      }
-    );
+    });
+    // .then(
+    //   success => { },
+    //   error => {
+    //     console.error(error);
+    //   }
+    // );
   };
 
   const handleFormSearchInput = searchTerm => {
