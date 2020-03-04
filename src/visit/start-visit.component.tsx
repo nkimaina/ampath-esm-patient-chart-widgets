@@ -16,9 +16,7 @@ export default function StartVisitComponent(props: StartVisitProps) {
   const [visitStartTime, setVisitStartTime] = React.useState(
     dayjs(new Date()).format("HH:mm")
   );
-  const [locationUuid, setLocationUuid] = React.useState(
-    "18c343eb-b353-462a-9139-b16606e6b6c2"
-  );
+  const [locationUuid, setLocationUuid] = React.useState();
 
   // events
   const startVisit = () => {

@@ -6,6 +6,7 @@ import styles from "../summary-card.css";
 
 export default function VisitSummaryComponent(props: any) {
   const visitToStart: VisitTypeProp = {
+    // Intentional: useful for switching between openmrs-spa and ampath environment for testing
     // visitTypeUuid: "7b0f5697-27e3-40c4-8bae-f4049abfb4ed",
     visitTypeUuid: "6b338817-8a12-4ef3-8263-4d952dee2de3",
     visitDisplay: "Outpatient Visit"
@@ -21,7 +22,6 @@ export default function VisitSummaryComponent(props: any) {
   };
 
   const onVisitStarted = (visit: any) => {
-    // console.log();
     setStartedVisit(visit);
     setStartingVisit(false);
   };
@@ -33,7 +33,6 @@ export default function VisitSummaryComponent(props: any) {
   return (
     <div
       style={{
-        // margin: "1.25rem, 1.5rem",
         minWidth: "20rem",
         textAlign: "left"
       }}

@@ -29,13 +29,6 @@ export default function LocationSelectComponent(props: LocationSelectProps) {
             </option>
           );
         })}
-        <option
-          key="f76c0c8e-2c3a-443c-b26d-96a9f3847764"
-          value="f76c0c8e-2c3a-443c-b26d-96a9f3847764"
-          className="omrs-padding-8"
-        >
-          Mosoriot Pharmacy
-        </option>
       </select>
     </>
   );

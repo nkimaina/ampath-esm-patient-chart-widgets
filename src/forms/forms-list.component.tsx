@@ -41,12 +41,6 @@ export default function FormsList(props: FormsListProps) {
       componentClosed: () => {},
       inProgress: false
     });
-    // .then(
-    //   success => { },
-    //   error => {
-    //     console.error(error);
-    //   }
-    // );
   };
 
   const handleFormSearchInput = searchTerm => {
@@ -56,7 +50,6 @@ export default function FormsList(props: FormsListProps) {
   const applyDefaultFilter = () => {
     let filter = new FormsFilter(allForms).filterUnpublishedRetired();
     let availability = filterAvailableCompletedForms(filter.forms, encounters);
-    // console.log('availability', availability);
     formFilter = new FormsFilter(availability.available);
     setCompletedForms(availability.completed);
   };
@@ -87,7 +80,6 @@ export default function FormsList(props: FormsListProps) {
   return (
     <div
       style={{
-        //margin: "1.25rem, 1.5rem",
         minWidth: "20rem",
         textAlign: "left"
       }}
@@ -118,7 +110,7 @@ export default function FormsList(props: FormsListProps) {
                   borderBottom: "0.5px solid lightgray",
                   ...formItemStyle
                 }}
-                onClick={$event =>
+                onClick={() =>
                   handleFormSelected(
                     encounter.form.uuid,
                     encounter.form.name,
@@ -158,7 +150,7 @@ export default function FormsList(props: FormsListProps) {
                   borderBottom: "0.5px solid lightgray",
                   ...formItemStyle
                 }}
-                onClick={$event => handleFormSelected(form.uuid, form.name)}
+                onClick={() => handleFormSelected(form.uuid, form.name)}
               >
                 <button className="omrs-btn omrs-text-action">
                   {" "}
