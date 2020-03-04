@@ -29,10 +29,10 @@ export default function FormsList(props: FormsListProps) {
     cursor: "pointer"
   };
 
-  const handleFormSelected = (selectedForm, encounter = null) => {
+  const handleFormSelected = (selectedForm, formName, encounter = null) => {
     addComponentToWorkSpace({
       component: FormRenderer,
-      name: "Form",
+      name: formName || "Form",
       props: {
         ...props.props,
         formUuid: selectedForm,
@@ -118,7 +118,11 @@ export default function FormsList(props: FormsListProps) {
                   ...formItemStyle
                 }}
                 onClick={$event =>
-                  handleFormSelected(encounter.form.uuid, encounter.uuid)
+                  handleFormSelected(
+                    encounter.form.uuid,
+                    encounter.form.name,
+                    encounter.uuid
+                  )
                 }
               >
                 <button className="omrs-btn omrs-text-action">
@@ -153,7 +157,7 @@ export default function FormsList(props: FormsListProps) {
                   borderBottom: "0.5px solid lightgray",
                   ...formItemStyle
                 }}
-                onClick={$event => handleFormSelected(form.uuid)}
+                onClick={$event => handleFormSelected(form.uuid, form.name)}
               >
                 <button className="omrs-btn omrs-text-action">
                   {" "}
