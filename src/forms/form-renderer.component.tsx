@@ -8,7 +8,12 @@ export function FormRenderer(props: FormRenderProps) {
         const domElement = document.getElementById(props.formUuid);
         const parcelProps = {
           domElement,
-          formUuid: props.formUuid
+          formUuid: props.formUuid,
+          encounterUuid: props.encounterUuid,
+          entryStarted: props.entryStarted,
+          entrySubmitted: props.entrySubmitted,
+          entryCancelled: props.entryCancelled,
+          closeComponent: props.closeComponent
         };
         props.mountParcel(config, parcelProps);
       }
@@ -23,4 +28,9 @@ export function FormRenderer(props: FormRenderProps) {
 
 export type FormRenderProps = AppProps & {
   formUuid: string;
+  encounterUuid?: string;
+  entryStarted?: Function;
+  entrySubmitted?: Function;
+  entryCancelled?: Function;
+  closeComponent?: Function;
 };

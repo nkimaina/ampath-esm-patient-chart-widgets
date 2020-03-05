@@ -3,13 +3,12 @@ import { match } from "react-router";
 import styles from "../summary-card.css";
 import { FormRenderer } from "./form-renderer.component";
 import { searchForms, Form } from "../openmrs-resource/form.resource";
-import { addComponentToWorkSpace } from "../work-space/work-space-controller";
 import { FormsFilter } from "./form-list-filter";
 import {
   getPatientEncounters,
   Encounter
 } from "../openmrs-resource/encounter.resource";
-import { getCurrentPatientUuid } from "@openmrs/esm-api";
+import { getCurrentPatientUuid, newWorkspaceItem } from "@openmrs/esm-api";
 import { filterAvailableCompletedForms } from "./form-grouper";
 
 export default function FormsList(props: FormsListProps) {
@@ -29,18 +28,19 @@ export default function FormsList(props: FormsListProps) {
     cursor: "pointer"
   };
 
-  const handleFormSelected = selectedForm => {
-    addComponentToWorkSpace({
+  const handleFormSelected = (selectedForm, formName, encounter = null) => {
+    newWorkspaceItem({
       component: FormRenderer,
-      name: "Form",
-      props: { ...props.props, formUuid: selectedForm, match: { params: {} } },
+      name: formName || "Form",
+      props: {
+        ...props.props,
+        formUuid: selectedForm,
+        encounterUuid: encounter,
+        match: { params: {} }
+      },
+      componentClosed: () => {},
       inProgress: false
-    }).then(
-      success => {},
-      error => {
-        console.error(error);
-      }
-    );
+    });
   };
 
   const handleFormSearchInput = searchTerm => {
@@ -50,7 +50,6 @@ export default function FormsList(props: FormsListProps) {
   const applyDefaultFilter = () => {
     let filter = new FormsFilter(allForms).filterUnpublishedRetired();
     let availability = filterAvailableCompletedForms(filter.forms, encounters);
-    // console.log('availability', availability);
     formFilter = new FormsFilter(availability.available);
     setCompletedForms(availability.completed);
   };
@@ -60,7 +59,7 @@ export default function FormsList(props: FormsListProps) {
       getCurrentPatientUuid().subscribe(uuid => {
         getPatientEncounters(uuid).subscribe(encounters => {
           searchForms("POC").subscribe(forms => {
-            setEncounters(encounters.slice(0, 2));
+            setEncounters(encounters);
             setAllForms(forms);
           });
         });
@@ -80,7 +79,10 @@ export default function FormsList(props: FormsListProps) {
 
   return (
     <div
-      style={{ margin: "1.25rem, 1.5rem", minWidth: "20rem" }}
+      style={{
+        minWidth: "20rem",
+        textAlign: "left"
+      }}
       className={`omrs-card ${styles.card}`}
     >
       <div className={styles.header}>
@@ -108,7 +110,13 @@ export default function FormsList(props: FormsListProps) {
                   borderBottom: "0.5px solid lightgray",
                   ...formItemStyle
                 }}
-                onClick={$event => handleFormSelected(encounter.form.uuid)}
+                onClick={() =>
+                  handleFormSelected(
+                    encounter.form.uuid,
+                    encounter.form.name,
+                    encounter.uuid
+                  )
+                }
               >
                 <button className="omrs-btn omrs-text-action">
                   {" "}
@@ -142,7 +150,7 @@ export default function FormsList(props: FormsListProps) {
                   borderBottom: "0.5px solid lightgray",
                   ...formItemStyle
                 }}
-                onClick={$event => handleFormSelected(form.uuid)}
+                onClick={() => handleFormSelected(form.uuid, form.name)}
               >
                 <button className="omrs-btn omrs-text-action">
                   {" "}
