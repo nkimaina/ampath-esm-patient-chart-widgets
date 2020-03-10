@@ -39,7 +39,9 @@ export default function FormsList(props: FormsListProps) {
         match: { params: {} }
       },
       componentClosed: () => {},
-      inProgress: false
+      inProgress: false,
+      validations: (workspaceTabs: any[]) =>
+        workspaceTabs.findIndex(tab => tab.component === FormRenderer)
     });
   };
 
