@@ -1,7 +1,6 @@
 import React from "react";
 import { match } from "react-router";
 import styles from "../summary-card.css";
-import { FormRenderer } from "./form-renderer.component";
 import { searchForms, Form } from "../openmrs-resource/form.resource";
 import { FormsFilter } from "./form-list-filter";
 import {
@@ -10,6 +9,7 @@ import {
 } from "../openmrs-resource/encounter.resource";
 import { getCurrentPatientUuid, newWorkspaceItem } from "@openmrs/esm-api";
 import { filterAvailableCompletedForms } from "./form-grouper";
+import Parcel from "single-spa-react/parcel";
 
 export default function FormsList(props: FormsListProps) {
   let formFilter: FormsFilter;
@@ -30,10 +30,25 @@ export default function FormsList(props: FormsListProps) {
 
   const handleFormSelected = (selectedForm, formName, encounter = null) => {
     newWorkspaceItem({
-      component: FormRenderer,
+      component: p => (
+        <Parcel
+          config={System.import("@ampath/esm-angular-form-entry")}
+          formUuid={selectedForm}
+          key={selectedForm}
+          encounterUuid={encounter}
+          entryStarted={p.entryStarted}
+          entrySubmitted={p.entrySubmitted}
+          entryCancelled={p.entryCancelled}
+          closeComponent={p.closeComponent}
+          handleError={err => console.error(err)}
+          wrapWith="div"
+          mountParcel={props.props.mountParcel}
+        ></Parcel>
+      ),
       name: formName || "Form",
       props: {
         ...props.props,
+        spaContext: props.spaContext,
         formUuid: selectedForm,
         encounterUuid: encounter,
         match: { params: {} }
@@ -41,7 +56,9 @@ export default function FormsList(props: FormsListProps) {
       componentClosed: () => {},
       inProgress: false,
       validations: (workspaceTabs: any[]) =>
-        workspaceTabs.findIndex(tab => tab.component === FormRenderer)
+        workspaceTabs.findIndex(
+          tab => tab.props.formUuid !== null && tab.props.formUuid !== undefined
+        )
     });
   };
 
@@ -173,4 +190,5 @@ type FormsListProps = {
   match: match;
   location: any;
   props: any;
+  spaContext?: any;
 };
