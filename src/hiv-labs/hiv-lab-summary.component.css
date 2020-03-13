@@ -1,0 +1,22 @@
+.hivLabContainer {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 5px 5px;
+  padding: 5px;
+}
+
+.labItem {
+  text-align: left;
+}
+
+.rowTitle {
+  font-weight: bold;
+}
+
+.faintText {
+  color: var(--omrs-color-ink-medium-contrast);
+}
+
+.alignLeft {
+  text-align: left;
+}

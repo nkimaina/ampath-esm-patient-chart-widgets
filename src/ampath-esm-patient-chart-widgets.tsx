@@ -5,6 +5,7 @@ import singleSpaReact from "single-spa-react";
 import { HivDashBoard } from "./dashboards/hiv-dashboard.component";
 import FormsList from "./forms/forms-list.component";
 import VisitSummary from "./visit/visit-summary.component";
+import HivLabSummary from "./hiv-labs/hiv-lab-summary.component";
 
 const lifecycles = singleSpaReact({
   React,
@@ -21,3 +22,4 @@ export const name = "@ampath/esm-patient-chart-widgets";
 export const hivWidget = HivDashBoard;
 export const todaysVisitWidget = VisitSummary;
 export const formsListWidget = FormsList;
+export const hivLabSummaryWidget = HivLabSummary;
