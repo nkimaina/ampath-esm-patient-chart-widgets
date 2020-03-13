@@ -47,7 +47,12 @@ module.exports = {
     },
     disableHostCheck: true
   },
-  externals: ["react", "react-dom", /^@openmrs\/esm/],
+  externals: [
+    "react",
+    "react-dom",
+    /^@openmrs\/esm/,
+    "@openmrs/esm-patient-chart-widgets"
+  ],
   plugins: [new ForkTsCheckerWebpackPlugin(), new CleanWebpackPlugin()],
   resolve: {
     extensions: [".tsx", ".ts", ".jsx", ".js"]

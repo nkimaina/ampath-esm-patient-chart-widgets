@@ -8,7 +8,7 @@ import styles from "./start-visit.component.css";
 import LocationSelectComponent from "../widgets/location-select.component";
 
 export default function StartVisitComponent(props: StartVisitProps) {
-  const [patientUuid, setPatientUuid] = React.useState();
+  const [patientUuid, setPatientUuid] = React.useState<string>();
 
   const [visitStartDate, setVisitStartDate] = React.useState(
     dayjs(new Date()).format("YYYY-MM-DD")
