@@ -30,6 +30,8 @@ describe("Openmrs Dates", () => {
       "2018-03-19T00:05:03.999+0300",
       "YYYY-MM-DDTHH:mm:ss.SSSZZ"
     ).toDate();
-    expect(toOmrsDateString(date)).toEqual("2018-03-19T00:05:03.999+0300");
+    expect(toOmrsDateString(date, true)).toEqual(
+      "2018-03-18T21:05:03.999+0000"
+    );
   });
 });
