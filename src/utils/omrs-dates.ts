@@ -43,3 +43,7 @@ export function toDateObjectStrict(omrsDateString: string): Date {
 export function toOmrsDateString(date: Date): string {
   return dayjs(date).format("YYYY-MM-DDTHH:mm:ss.SSSZZ");
 }
+
+export function formatDate(date: Date, format?: string) {
+  return dayjs(date).format(format || "DD-MMM-YYYY");
+}
