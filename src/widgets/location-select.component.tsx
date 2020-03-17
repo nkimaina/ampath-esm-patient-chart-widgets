@@ -1,5 +1,5 @@
 import React from "react";
-import useLocations from "./use-locations";
+import useLocations from "../hooks/use-locations";
 import { Location } from "../openmrs-resource/location.resource";
 
 export default function LocationSelectComponent(props: LocationSelectProps) {
