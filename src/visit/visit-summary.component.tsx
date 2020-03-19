@@ -48,7 +48,7 @@ export default function VisitSummaryComponent(props: any) {
         </div>
       </div>
       <div
-        style={{ maxHeight: "320px", minHeight: "90px", overflow: "scroll" }}
+        style={{ maxHeight: "320px", minHeight: "320px", overflow: "scroll" }}
       >
         {!startingVisit && startedVisit === undefined && <div>Loading...</div>}
         {startingVisit && (

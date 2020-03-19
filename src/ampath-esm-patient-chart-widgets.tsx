@@ -2,15 +2,15 @@ import "./set-public-path";
 import React from "react";
 import ReactDOM from "react-dom";
 import singleSpaReact from "single-spa-react";
-import Root from "./root.component";
 import { HivDashBoard } from "./dashboards/hiv-dashboard.component";
 import FormsList from "./forms/forms-list.component";
 import VisitSummary from "./visit/visit-summary.component";
+import HivLabSummary from "./hiv-labs/hiv-lab-summary.component";
 
 const lifecycles = singleSpaReact({
   React,
   ReactDOM,
-  rootComponent: Root
+  rootComponent: VisitSummary
 });
 
 export const bootstrap = lifecycles.bootstrap;
@@ -22,3 +22,4 @@ export const name = "@ampath/esm-patient-chart-widgets";
 export const hivWidget = HivDashBoard;
 export const todaysVisitWidget = VisitSummary;
 export const formsListWidget = FormsList;
+export const hivLabSummaryWidget = HivLabSummary;

@@ -6,9 +6,10 @@ import { NewVisitPayload, saveVisit } from "../openmrs-resource/visit.resource";
 import { FetchResponse } from "@openmrs/esm-api/dist/openmrs-fetch";
 import styles from "./start-visit.component.css";
 import LocationSelectComponent from "../widgets/location-select.component";
+import { toOmrsDateString } from "../utils/omrs-dates";
 
 export default function StartVisitComponent(props: StartVisitProps) {
-  const [patientUuid, setPatientUuid] = React.useState();
+  const [patientUuid, setPatientUuid] = React.useState<string>();
 
   const [visitStartDate, setVisitStartDate] = React.useState(
     dayjs(new Date()).format("YYYY-MM-DD")
@@ -22,9 +23,9 @@ export default function StartVisitComponent(props: StartVisitProps) {
   const startVisit = () => {
     let visitPayload: NewVisitPayload = {
       patient: patientUuid,
-      startDatetime: dayjs(
+      startDatetime: toOmrsDateString(
         new Date(`${visitStartDate} ${visitStartTime}:00`)
-      ).format("YYYY-MM-DD HH:mm:00"),
+      ),
       visitType: props.visitType.visitTypeUuid,
       location: locationUuid
     };
