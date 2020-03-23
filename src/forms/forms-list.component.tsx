@@ -42,15 +42,12 @@ export default function FormsList(props: FormsListProps) {
           closeComponent={p.closeComponent}
           handleError={err => console.error(err)}
           wrapWith="div"
-          mountParcel={props.props.mountParcel}
+          mountParcel={props.singleSpaContext.mountParcel}
         ></Parcel>
       ),
       name: formName || "Form",
       props: {
         ...props.props,
-        spaContext: props.spaContext,
-        formUuid: selectedForm,
-        encounterUuid: encounter,
         match: { params: {} }
       },
       componentClosed: () => {},
@@ -190,5 +187,5 @@ type FormsListProps = {
   match: match;
   location: any;
   props: any;
-  spaContext?: any;
+  singleSpaContext?: any;
 };
