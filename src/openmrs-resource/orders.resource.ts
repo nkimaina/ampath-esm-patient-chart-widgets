@@ -60,7 +60,7 @@ export function toOrder(omrsPayload: any): Order {
     display: omrsPayload.display,
     action: omrsPayload.action,
     orderNumber: omrsPayload.orderNumber,
-    dateActivated: toDateObjectStrict(omrsPayload.obsDatetime),
+    dateActivated: toDateObjectStrict(omrsPayload.dateActivated),
     encounter: {
       uuid: omrsPayload.encounter.uuid,
       encounterDatetime: toDateObjectStrict(

@@ -6,17 +6,23 @@ import {
 } from "@openmrs/esm-patient-chart-widgets";
 import { useTranslation } from "react-i18next";
 import { getCurrentPatientUuid } from "@openmrs/esm-api";
-import useObs, { ObsParams, Sort } from "../hooks/use-obs";
+import useObs, { ObsParams } from "../hooks/use-obs";
 import styles from "./hiv-lab-summary.component.css";
 import { Subscription } from "rxjs";
 import { formatDate } from "../utils/omrs-dates";
+import useOrders, { OrdersParams } from "../hooks/use-orders";
+import { Sort } from "../utils/sort-enum";
+import { Order } from "../openmrs-resource/orders.resource";
 
 export default function HivLabSummary(props: any) {
   const CD4_COUNT_CONCEPT = "a8a8bb18-1350-11df-a1f1-0026b9348838";
   const VIRAL_LOAD_COUNT_CONCEPT = "a8982474-1350-11df-a1f1-0026b9348838";
   const { t } = useTranslation();
   const [obsParams, setObsParams] = useState<ObsParams>();
+  const [ordersParams, setOrdersParams] = useState<OrdersParams>();
   const [obsByConcept, errorFetchingObs] = useObs(obsParams);
+  const [ordersByConcept, setOrdersByConcept] = useOrders(ordersParams);
+  const [pendingOrders, setPendingOrders] = useState<Order[]>([]);
   const convertViralLoad = (viralLoad: number) => {
     return viralLoad > 0 ? viralLoad : "Undetectable";
   };
@@ -30,10 +36,37 @@ export default function HivLabSummary(props: any) {
           orderByObsDate: Sort.DESC,
           top: 1
         });
+        setOrdersParams({
+          patientUuid: uuid,
+          conceptUuids: [VIRAL_LOAD_COUNT_CONCEPT, CD4_COUNT_CONCEPT],
+          orderByDateActivated: Sort.DESC,
+          top: 1
+        });
       });
     }
     return () => sub && sub.unsubscribe();
   }, []);
+
+  useEffect(() => {
+    if (obsByConcept && ordersByConcept) {
+      let pending: Array<Order> = [];
+      [CD4_COUNT_CONCEPT, VIRAL_LOAD_COUNT_CONCEPT].forEach(conceptUuid => {
+        if (ordersByConcept[conceptUuid].length > 0) {
+          if (obsByConcept[conceptUuid].length > 0) {
+            if (
+              ordersByConcept[conceptUuid][0].dateActivated.valueOf() >
+              obsByConcept[conceptUuid][0].obsDatetime.valueOf()
+            ) {
+              pending.push(ordersByConcept[conceptUuid][0]);
+            }
+          } else {
+            pending.push(ordersByConcept[conceptUuid][0]);
+          }
+        }
+      });
+      setPendingOrders(pending);
+    }
+  }, [ordersByConcept, obsByConcept]);
 
   return (
     <SummaryCard name={t("HIV - Labs", "HIV - Labs")}>
@@ -133,7 +166,23 @@ export default function HivLabSummary(props: any) {
               Pending Labs
             </div>
             <div className={`omrs-type-body-small ${styles.rowTitle}`}>
-              CD4 Count, Viral Load
+              {pendingOrders.length > 0 &&
+                pendingOrders.map((order, index) => {
+                  let ord: string;
+                  if (order.concept.uuid === CD4_COUNT_CONCEPT) {
+                    ord = "CD4 Count";
+                  }
+                  if (order.concept.uuid === VIRAL_LOAD_COUNT_CONCEPT) {
+                    ord = "Viral Load";
+                  }
+                  if (index < pendingOrders.length - 1) {
+                    ord = ord.concat(", ");
+                  }
+                  return ord;
+                })}
+              {pendingOrders.length === 0 &&
+                ordersByConcept !== null &&
+                "None Found"}
             </div>
           </div>
         </div>

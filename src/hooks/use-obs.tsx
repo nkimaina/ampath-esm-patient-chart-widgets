@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Subscription } from "rxjs";
 import { getObs, Obs } from "../openmrs-resource/obs.resource";
+import { Sort } from "../utils/sort-enum";
 
 export default function useObs(props: ObsParams) {
   const [obsByConcept, setObsByConcept] = useState<ObsByConceptMap>();
@@ -50,12 +51,6 @@ export type ObsParams = {
   orderByObsDate?: Sort;
   top?: number;
 };
-
-export enum Sort {
-  None,
-  ASC,
-  DESC
-}
 
 export interface ObsByConceptMap {
   [conceptUuid: string]: Obs[];
