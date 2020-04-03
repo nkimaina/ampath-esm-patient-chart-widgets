@@ -74,6 +74,10 @@ export type ProgramFormsConfig = {
   forms: Array<FormSelector>;
 };
 
+export type ProgramConfig = {
+  programs: ProgramFormsConfig[];
+};
+
 export type FormSelector = {
   encounterTypeUuid: string;
   formUuid?: string;
