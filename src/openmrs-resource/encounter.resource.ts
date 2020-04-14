@@ -6,10 +6,13 @@ import { toOmrsDateString } from "../utils/omrs-dates";
 
 export function getPatientEncounters(
   patientUuid: string,
-  v = "full",
   startDate?: Date,
-  endDate?: Date
+  endDate?: Date,
+  v?: string
 ): Observable<Array<Encounter>> {
+  if (!v) {
+    v = `custom:(uuid,encounterDatetime,encounterType:(uuid,name),form:(uuid,name,encounterType:(uuid,name),version,published,retired,resources:(uuid,name,dataType,valueReference))`;
+  }
   let url = `/ws/rest/v1/encounter?v=${v}&patient=${patientUuid}`;
   if (startDate) {
     url = `${url}&fromdate=${startDate.toISOString()}`;

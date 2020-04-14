@@ -76,7 +76,6 @@ export default function FormsList(props: FormsListProps) {
       getCurrentPatientUuid().subscribe(uuid => {
         getPatientEncounters(
           uuid,
-          "full",
           dayjs(new Date())
             .startOf("day")
             .toDate(),
