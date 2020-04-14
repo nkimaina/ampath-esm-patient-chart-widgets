@@ -1,5 +1,6 @@
 import React from "react";
 import { match } from "react-router";
+import dayjs from "dayjs";
 import styles from "../summary-card.css";
 import { searchForms, Form } from "../openmrs-resource/form.resource";
 import { FormsFilter } from "./form-list-filter";
@@ -73,7 +74,15 @@ export default function FormsList(props: FormsListProps) {
   React.useEffect(() => {
     if (allForms.length === 0) {
       getCurrentPatientUuid().subscribe(uuid => {
-        getPatientEncounters(uuid).subscribe(encounters => {
+        getPatientEncounters(
+          uuid,
+          dayjs(new Date())
+            .startOf("day")
+            .toDate(),
+          dayjs(new Date())
+            .endOf("day")
+            .toDate()
+        ).subscribe(encounters => {
           searchForms("POC").subscribe(forms => {
             setEncounters(encounters);
             setAllForms(forms);
