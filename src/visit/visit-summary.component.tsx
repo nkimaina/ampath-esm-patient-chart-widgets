@@ -5,6 +5,7 @@ import {
 } from "@openmrs/esm-module-config";
 
 import StartVisitComponent from "./start-visit.component";
+import StartedVisitComponent from "./started-visit.component";
 import useStartedVisit from "./use-started-visit";
 import styles from "../summary-card.css";
 import { esmPatientChartWidgetsSchema } from "../config/patient-chart-widgets.schema";
@@ -18,7 +19,8 @@ export default function VisitSummaryComponent(props: any) {
   const visitToStart: VisitTypeProp = {
     // Intentional: useful for switching between openmrs-spa and ampath environment for testing
     // visitTypeUuid: "7b0f5697-27e3-40c4-8bae-f4049abfb4ed",
-    visitTypeUuid: "6b338817-8a12-4ef3-8263-4d952dee2de3",
+    // visitTypeUuid: "6b338817-8a12-4ef3-8263-4d952dee2de3", // amrs-backup
+    visitTypeUuid: "98602daf-b04f-4cf4-b5a5-39ae6a27aee6", // test-amrs
     visitDisplay: "Outpatient Visit"
   };
 
@@ -103,21 +105,7 @@ export default function VisitSummaryComponent(props: any) {
             </div>
           )}
 
-          {startedVisit && (
-            <div
-              className="omrs-type-body-regular omrs-padding-top-4 omrs-margin-left-16"
-              style={{ color: "var(--omrs-color-interaction)" }}
-            >
-              <svg
-                className="omrs-icon"
-                fill="var(--omrs-color-interaction)"
-                style={{ height: "1rem", width: "1rem" }}
-              >
-                <use xlinkHref="#omrs-icon-check-circle"></use>
-              </svg>{" "}
-              Started Outpatient Visit
-            </div>
-          )}
+          {startedVisit && <StartedVisitComponent visit={startedVisit} />}
         </div>
       </div>
     </ModuleNameContext.Provider>
