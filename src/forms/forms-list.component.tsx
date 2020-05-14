@@ -36,21 +36,23 @@ export default function FormsList(props: FormsListProps) {
 
   const handleFormSelected = (selectedForm, formName, encounter = null) => {
     newWorkspaceItem({
-      component: p => (
-        <Parcel
-          config={System.import("@ampath/esm-angular-form-entry")}
-          formUuid={selectedForm}
-          key={selectedForm}
-          encounterUuid={encounter}
-          entryStarted={p.entryStarted}
-          entrySubmitted={p.entrySubmitted}
-          entryCancelled={p.entryCancelled}
-          closeComponent={p.closeComponent}
-          handleError={err => console.error(err)}
-          wrapWith="div"
-          mountParcel={props.singleSpaContext.mountParcel}
-        ></Parcel>
-      ),
+      component: p => {
+        return (
+          <Parcel
+            config={System.import("@ampath/esm-angular-form-entry")}
+            formUuid={selectedForm}
+            key={selectedForm}
+            encounterUuid={encounter}
+            entryStarted={p.entryStarted}
+            entrySubmitted={p.entrySubmitted}
+            entryCancelled={p.entryCancelled}
+            closeComponent={p.closeComponent}
+            handleError={err => console.error(err)}
+            wrapWith="div"
+            mountParcel={p.singleSpaContext.mountParcel}
+          ></Parcel>
+        );
+      },
       name: formName || "Form",
       props: {
         ...props.props,
@@ -157,24 +159,21 @@ export default function FormsList(props: FormsListProps) {
                   <use xlinkHref="#omrs-icon-chevron-right"></use>
                 </svg> */}
                 <br />
-                <span
-                  className="omrs-type-body-regular omrs-padding-left-24"
-                  style={{
-                    color: "var(--omrs-color-ink-medium-contrast)",
-                    fontFamily: "Work Sans"
-                  }}
-                >
-                  Completed on{" "}
-                  {encounter.encounterDateTime.toLocaleDateString()}{" "}
+                <span className="omrs-type-body-regular omrs-padding-left-24">
                   <Link
                     to={`${baseChartUrl}/encounter-viewer/${encounter.uuid}`}
+                    className="omrs-link omrs-filled-neutral"
                   >
-                    <svg
-                      className="omrs-icon"
-                      fill="var(--omrs-color-ink-low-contrast)"
+                    <span
+                      style={{
+                        color: "var(--omrs-color-ink-medium-contrast)",
+                        fontFamily: "Work Sans"
+                      }}
                     >
-                      <use xlinkHref="#omrs-icon-chevron-right" />
-                    </svg>
+                      {" "}
+                      Completed on{" "}
+                      {encounter.encounterDateTime.toLocaleDateString()}
+                    </span>
                   </Link>
                 </span>
               </div>

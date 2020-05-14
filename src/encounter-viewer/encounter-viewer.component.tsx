@@ -5,19 +5,19 @@ import { useTranslation } from "react-i18next";
 import Parcel from "single-spa-react/parcel";
 
 export default function EncounterViewerComponent(props: EncounterViewerProps) {
-  // console.log("encounter props", props);
   const { t } = useTranslation();
   return (
     <SummaryCard name={t("Encounter Details", "Encounter Details")}>
-      <Parcel
-        config={System.import("@ampath/esm-angular-form-entry").then(m => {
-          return m.encounterViewerParcel;
-        })}
-        encounterUuid={props.match.params.encounterUuid}
-        handleError={err => console.error(err)}
-        wrapWith="div"
-        mountParcel={props.props.singleSpaContext.mountParcel}
-      ></Parcel>
+      <div className="omrs-padding-20">
+        <Parcel
+          config={System.import("@ampath/esm-angular-form-entry")}
+          view="encounter-viewer"
+          encounterUuid={props.match.params.encounterUuid}
+          handleError={err => console.error(err)}
+          wrapWith="div"
+          mountParcel={props.props.singleSpaContext.mountParcel}
+        ></Parcel>
+      </div>
     </SummaryCard>
   );
 }
