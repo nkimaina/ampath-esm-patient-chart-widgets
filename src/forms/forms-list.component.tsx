@@ -11,10 +11,15 @@ import {
 import { getCurrentPatientUuid, newWorkspaceItem } from "@openmrs/esm-api";
 import { filterAvailableCompletedForms } from "./form-grouper";
 import Parcel from "single-spa-react/parcel";
+import { Link } from "react-router-dom";
 
 export default function FormsList(props: FormsListProps) {
+  // console.log("props", props);
+  const baseChartUrl = `${props.match.url.substr(
+    0,
+    props.match.url.search("/hiv-dashboard")
+  )}/hiv-dashboard`;
   let formFilter: FormsFilter;
-
   const [forms, setForms] = React.useState(new Array<Form>());
   const [encounters, setEncounters] = React.useState(new Array<Encounter>());
   const [completedForms, setCompletedForms] = React.useState(
@@ -31,21 +36,23 @@ export default function FormsList(props: FormsListProps) {
 
   const handleFormSelected = (selectedForm, formName, encounter = null) => {
     newWorkspaceItem({
-      component: p => (
-        <Parcel
-          config={System.import("@ampath/esm-angular-form-entry")}
-          formUuid={selectedForm}
-          key={selectedForm}
-          encounterUuid={encounter}
-          entryStarted={p.entryStarted}
-          entrySubmitted={p.entrySubmitted}
-          entryCancelled={p.entryCancelled}
-          closeComponent={p.closeComponent}
-          handleError={err => console.error(err)}
-          wrapWith="div"
-          mountParcel={props.singleSpaContext.mountParcel}
-        ></Parcel>
-      ),
+      component: p => {
+        return (
+          <Parcel
+            config={System.import("@ampath/esm-angular-form-entry")}
+            formUuid={selectedForm}
+            key={selectedForm}
+            encounterUuid={encounter}
+            entryStarted={p.entryStarted}
+            entrySubmitted={p.entrySubmitted}
+            entryCancelled={p.entryCancelled}
+            closeComponent={p.closeComponent}
+            handleError={err => console.error(err)}
+            wrapWith="div"
+            mountParcel={p.singleSpaContext.mountParcel}
+          ></Parcel>
+        );
+      },
       name: formName || "Form",
       props: {
         ...props.props,
@@ -128,22 +135,23 @@ export default function FormsList(props: FormsListProps) {
           completedForms.map(encounter => {
             return (
               <div
-                role="button"
                 key={encounter.form.uuid}
                 tabIndex={-1}
                 style={{
                   borderBottom: "0.5px solid lightgray",
                   ...formItemStyle
                 }}
-                onClick={() =>
-                  handleFormSelected(
-                    encounter.form.uuid,
-                    encounter.form.name,
-                    encounter.uuid
-                  )
-                }
               >
-                <button className="omrs-btn omrs-text-action">
+                <button
+                  className="omrs-btn omrs-text-action"
+                  onClick={() =>
+                    handleFormSelected(
+                      encounter.form.uuid,
+                      encounter.form.name,
+                      encounter.uuid
+                    )
+                  }
+                >
                   {" "}
                   {encounter.form.name}{" "}
                 </button>
@@ -151,15 +159,22 @@ export default function FormsList(props: FormsListProps) {
                   <use xlinkHref="#omrs-icon-chevron-right"></use>
                 </svg> */}
                 <br />
-                <span
-                  className="omrs-type-body-regular omrs-padding-left-24"
-                  style={{
-                    color: "var(--omrs-color-ink-medium-contrast)",
-                    fontFamily: "Work Sans"
-                  }}
-                >
-                  Completed on{" "}
-                  {encounter.encounterDateTime.toLocaleDateString()}{" "}
+                <span className="omrs-type-body-regular omrs-padding-left-24">
+                  <Link
+                    to={`${baseChartUrl}/encounter-viewer/${encounter.uuid}`}
+                    className="omrs-link omrs-filled-neutral"
+                  >
+                    <span
+                      style={{
+                        color: "var(--omrs-color-ink-medium-contrast)",
+                        fontFamily: "Work Sans"
+                      }}
+                    >
+                      {" "}
+                      Completed on{" "}
+                      {encounter.encounterDateTime.toLocaleDateString()}
+                    </span>
+                  </Link>
                 </span>
               </div>
             );
@@ -192,9 +207,9 @@ export default function FormsList(props: FormsListProps) {
   );
 }
 
-type FormsListProps = {
-  match: match;
-  location: any;
+export type FormsListProps = {
+  match?: match;
+  location?: any;
   props: any;
   singleSpaContext?: any;
 };

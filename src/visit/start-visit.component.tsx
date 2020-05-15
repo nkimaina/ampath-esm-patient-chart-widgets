@@ -35,7 +35,7 @@ export default function StartVisitComponent(props: StartVisitProps) {
     };
     saveVisit(visitPayload, new AbortController()).subscribe(
       (response: FetchResponse<any>) => {
-        props.onVisitStarted(response.data);
+        props?.onVisitStarted(response.data);
       },
       error => {
         console.error("error", error);
@@ -113,7 +113,7 @@ export default function StartVisitComponent(props: StartVisitProps) {
       <div style={{ width: "100%" }}>
         <button
           className={`omrs-link omrs-outlined-neutral omrs-rounded omrs-padding-8 omrs-margin-8 omrs-type-body-regular ${styles.buttonStyle}`}
-          onClick={() => props.onCanceled()}
+          onClick={() => props?.onCanceled()}
         >
           Cancel
         </button>

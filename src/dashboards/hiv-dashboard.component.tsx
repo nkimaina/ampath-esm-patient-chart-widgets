@@ -7,7 +7,7 @@ export function HivDashBoard(props) {
   return (
     <BrowserRouter basename={window["getOpenmrsSpaBase"]()}>
       <VisitSummary />
-      <FormsList props={props} match={null} location={null} />
+      <FormsList props={props} />
     </BrowserRouter>
   );
 }
