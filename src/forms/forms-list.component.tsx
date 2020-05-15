@@ -12,6 +12,7 @@ import { getCurrentPatientUuid, newWorkspaceItem } from "@openmrs/esm-api";
 import { filterAvailableCompletedForms } from "./form-grouper";
 import Parcel from "single-spa-react/parcel";
 import { Link } from "react-router-dom";
+import { Subscription } from "rxjs";
 
 export default function FormsList(props: FormsListProps) {
   // console.log("props", props);
@@ -40,6 +41,7 @@ export default function FormsList(props: FormsListProps) {
         return (
           <Parcel
             config={System.import("@ampath/esm-angular-form-entry")}
+            view="form"
             formUuid={selectedForm}
             key={selectedForm}
             encounterUuid={encounter}
@@ -58,7 +60,9 @@ export default function FormsList(props: FormsListProps) {
         ...props.props,
         match: { params: {} }
       },
-      componentClosed: () => {},
+      componentClosed: () => {
+        setAllForms([]);
+      },
       inProgress: false,
       validations: (workspaceTabs: any[]) =>
         workspaceTabs.findIndex(
@@ -79,9 +83,11 @@ export default function FormsList(props: FormsListProps) {
   };
 
   React.useEffect(() => {
+    let patientSub: Subscription;
+    let encounterSub: Subscription;
     if (allForms.length === 0) {
-      getCurrentPatientUuid().subscribe(uuid => {
-        getPatientEncounters(
+      patientSub = getCurrentPatientUuid().subscribe(uuid => {
+        encounterSub = getPatientEncounters(
           uuid,
           dayjs(new Date())
             .startOf("day")
@@ -97,7 +103,11 @@ export default function FormsList(props: FormsListProps) {
         });
       });
     }
-  }, []);
+    return () => {
+      patientSub ? patientSub.unsubscribe() : null;
+      encounterSub ? encounterSub.unsubscribe() : null;
+    };
+  }, [allForms]);
 
   React.useEffect(() => {
     if (!formFilter) {
