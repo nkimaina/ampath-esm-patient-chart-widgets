@@ -18,7 +18,7 @@ import useWidgetConfig from "../config/use-widget-config";
 
 export default function FormsList(props: FormsListProps) {
   const config = useWidgetConfig<ProgramConfig>("programs");
-  console.log("config", config);
+  // console.log("config", config);
   // console.log("props", props);
   const baseChartUrl = `${props.match.url.substr(
     0,

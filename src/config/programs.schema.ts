@@ -1,5 +1,5 @@
 import { validators } from "@openmrs/esm-module-config";
-import { ChartWidgetConfig } from "@openmrs/esm-patient-chart-widgets";
+import { ExternalPatientChartConfig } from "@openmrs/esm-patient-chart-widgets";
 
 export const programsConfigSchema = {
   programs: {
@@ -24,7 +24,7 @@ export type ProgramFormsConfig = {
   forms: Array<FormSelector>;
 };
 
-export interface ProgramConfig extends ChartWidgetConfig {
+export interface ProgramConfig extends ExternalPatientChartConfig {
   programs: ProgramFormsConfig[];
 }
 

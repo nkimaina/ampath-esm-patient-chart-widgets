@@ -2,13 +2,13 @@ import React from "react";
 import { useConfig } from "@openmrs/esm-module-config";
 import {
   PatientChartConfig,
-  ChartWidgetConfig
+  ExternalPatientChartConfig
 } from "@openmrs/esm-patient-chart-widgets";
 
-export default function useWidgetConfig<T extends ChartWidgetConfig>(
+export default function useWidgetConfig<T extends ExternalPatientChartConfig>(
   key: string
 ): T {
   const config = (useConfig<PatientChartConfig>() as PatientChartConfig)
-    .widgetsConfigs[key] as T;
+    .externalPatientChartConfigs[key] as T;
   return config;
 }
