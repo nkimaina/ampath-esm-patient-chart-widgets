@@ -13,11 +13,14 @@ import { filterAvailableCompletedForms } from "./form-grouper";
 import Parcel from "single-spa-react/parcel";
 import { Link } from "react-router-dom";
 import { Subscription } from "rxjs";
-import { ProgramConfig } from "../config/programs.schema";
+import { ProgramConfig, programsConfigSchema } from "../config/programs.schema";
 import useWidgetConfig from "../config/use-widget-config";
 
 export default function FormsList(props: FormsListProps) {
-  const config = useWidgetConfig<ProgramConfig>("programs");
+  const config = useWidgetConfig<ProgramConfig>(
+    "externalPatientChartConfigs",
+    programsConfigSchema
+  );
   // console.log("config", config);
   // console.log("props", props);
   const baseChartUrl = `${props.match.url.substr(
